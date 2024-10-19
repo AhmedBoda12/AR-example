@@ -19,6 +19,7 @@
       align-items: center;
       height: 100vh;
       background-color: #f4f4f9;
+      position: relative;
     }
 
     model-viewer {
@@ -27,13 +28,40 @@
       height: 500px;
       border: none;
     }
+
+    .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
+  <!-- Loading Spinner -->
+  <div id="loader" class="loader"></div>
+
   <!-- AR Car Model Viewer -->
   <model-viewer 
-    src="https://drive.google.com/file/d/1ZuuQfqvdjTFtJizv0kTltI6d6iKP-XHR/view?usp=sharing" 
+    id="carModel"
+    src="http://res.cloudinary.com/dgeqirso0/image/upload/v1718376365/object-models/huzjs3w7zcd6j6bxloud.glb" 
     ar 
     ar-modes="scene-viewer quick-look" 
     environment-image="neutral" 
@@ -44,6 +72,23 @@
     ar-scale="fixed" 
     style="width: 100%; height: 100vh;">
   </model-viewer>
+
+  <script>
+    const modelViewer = document.getElementById('carModel');
+    const loader = document.getElementById('loader');
+
+    // Show loader until the model is fully loaded and visible
+    modelViewer.addEventListener('load', () => {
+      loader.classList.add('hidden'); // Hide loader once the model is loaded
+    });
+
+    // If you want to handle model visibility for better UX
+    modelViewer.addEventListener('model-visibility', (event) => {
+      if (event.detail.visible) {
+        loader.classList.add('hidden'); // Hide loader when model is visible
+      }
+    });
+  </script>
 
 </body>
 </html>
