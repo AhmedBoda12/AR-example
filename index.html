@@ -20,6 +20,7 @@
       height: 100vh;
       background-color: #f4f4f9;
       position: relative;
+      flex-direction: column;
     }
 
     model-viewer {
@@ -51,6 +52,22 @@
     .hidden {
       display: none;
     }
+
+    .ar-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .ar-button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -73,19 +90,34 @@
     style="width: 100%; height: 100vh;">
   </model-viewer>
 
+  <!-- AR Button -->
+  <button id="arButton" class="ar-button" disabled>View in AR</button>
+
   <script>
     const modelViewer = document.getElementById('carModel');
     const loader = document.getElementById('loader');
+    const arButton = document.getElementById('arButton');
 
     // Show loader until the model is fully loaded and visible
     modelViewer.addEventListener('load', () => {
       loader.classList.add('hidden'); // Hide loader once the model is loaded
+      // Enable the AR button once the model is ready and AR is supported
+      if (modelViewer.canActivateAR) {
+        arButton.disabled = false;
+      }
     });
 
     // If you want to handle model visibility for better UX
     modelViewer.addEventListener('model-visibility', (event) => {
       if (event.detail.visible) {
         loader.classList.add('hidden'); // Hide loader when model is visible
+      }
+    });
+
+    // Add event listener to the AR button
+    arButton.addEventListener('click', () => {
+      if (modelViewer.canActivateAR) {
+        modelViewer.activateAR();
       }
     });
   </script>
