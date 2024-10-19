@@ -15,7 +15,6 @@
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -28,28 +27,12 @@
       height: 500px;
       border: none;
     }
-
-    .ar-button {
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    .ar-button:hover {
-      background-color: #218838;
-    }
   </style>
 </head>
 <body>
 
   <!-- AR Car Model Viewer -->
   <model-viewer 
-    id="carModel"
     src="http://res.cloudinary.com/dgeqirso0/image/upload/v1718376365/object-models/huzjs3w7zcd6j6bxloud.glb" 
     ar 
     ar-modes="scene-viewer quick-look" 
@@ -61,21 +44,6 @@
     ar-scale="fixed" 
     style="width: 100%; height: 100vh;">
   </model-viewer>
-
-  <!-- Button to trigger AR -->
-  <button class="ar-button" onclick="activateAR()">View in AR</button>
-
-  <script>
-    function activateAR() {
-      const modelViewer = document.querySelector('#carModel');
-      const supportsAR = modelViewer.canActivateAR;
-      if (supportsAR) {
-        modelViewer.activateAR();
-      } else {
-        alert("AR is not supported on your device.");
-      }
-    }
-  </script>
 
 </body>
 </html>
